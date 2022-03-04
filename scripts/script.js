@@ -8,6 +8,7 @@ const inputAuthor = document.querySelector('#author');
 const inputPage = document.querySelector('#pages');
 const inputRead = document.querySelector('#read');
 let removeButtons;
+let readButtons;
 
 function Book(title, author, pages, read) {
   this.title = title;
@@ -42,16 +43,22 @@ function displayBooks() {
     const author = document.createElement('p');
     const pages = document.createElement('p');
     const read = document.createElement('p');
-    const remove = document.createElement('button')
+    const remove = document.createElement('button');
+    const isRead = document.createElement('button');
     bookCard.classList.add('book-card');
     bookCard.dataset.index = i;
     remove.classList.add('remove-book');
+    read.classList.add('read-indicator');
+    read.classList.add('mark-read');
+    isRead.classList.add('mark-read');
+    if (myLibrary[i].read) {isRead.classList.add('read'); read.classList.add('read')};
     title.textContent = myLibrary[i].title;
     author.textContent = myLibrary[i].author;
     pages.textContent = myLibrary[i].pages;
     read.textContent = myLibrary[i].read ? 'already read' : 'not read';
     remove.textContent = 'Delete book';
-    bookCard.append(title, author, pages, read, remove);
+    isRead.textContent = isRead.classList.contains('read') ? 'Make as not read' : 'Mark as read';
+    bookCard.append(title, author, pages, read, remove, isRead);
     library.appendChild(bookCard);
   }
 }
@@ -61,12 +68,41 @@ function updateRemoveButtons() {
   removeButtons.forEach(button => button.addEventListener('click', removeBook));
 }
 
+function updateReadButtons() {
+  readButtons = document.querySelectorAll('.mark-read')
+  readButtons.forEach(button => button.addEventListener('click', changeReadStatus));
+}
+
+function changeReadStatus() {
+  let buttons = this.parentNode.querySelectorAll('.mark-read')
+  if (this.classList.contains('read')) {
+      for (let i = 0; i < buttons.length; i++) {
+      buttons[i].classList.toggle('read');
+      if (buttons[i].classList.contains('read-indicator')) {
+        buttons[i].textContent = 'not read';
+      } else {
+        buttons[i].textContent = 'Mark as read';
+      }
+    }
+  } else {
+    for (let i = 0; i < buttons.length; i++) {
+      buttons[i].classList.toggle('read');
+      if (buttons[i].classList.contains('read-indicator')) {
+        buttons[i].textContent = 'already read';
+      } else {
+        buttons[i].textContent = 'Mark as not read';
+      }
+  }
+}
+}
+
 function removeBook() {
   let currentCardIndex = this.parentNode.dataset.index;
   myLibrary.splice(currentCardIndex, 1);
   updateIndexes();
   displayBooks();
   updateRemoveButtons();
+  updateReadButtons();
 }
 
 function updateIndexes() {
@@ -82,6 +118,7 @@ function getNewBook() {
     displayBooks();
     resetInputs();
     updateRemoveButtons();
+    updateReadButtons();
     modal.style.display = 'none';
   }
 }
@@ -94,8 +131,10 @@ function resetInputs() {
 }
 
 const hobbit = new Book('The Hobbit', 'JRR Tolkien', 295, true);
-
-
+addBookToLibrary(hobbit);
+displayBooks();
+updateRemoveButtons();
+updateReadButtons();
 
 
 addBookButton.addEventListener('click', () => modal.style.display = 'block');
