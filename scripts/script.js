@@ -1,6 +1,11 @@
 const modal = document.querySelector('.modal');
 const addBookButton = document.querySelector('.add-book');
 const closeButton = document.querySelector('.close');
+const sendNewBook = document.querySelector('.send-book');
+const inputTitle = document.querySelector('#title');
+const inputAuthor = document.querySelector('#author');
+const inputPage = document.querySelector('#pages');
+const inputRead = document.querySelector('#read');
 
 
 function Book(title, author, pages, read) {
@@ -42,6 +47,23 @@ function displayBooks() {
   }
 }
 
+function getNewBook() {
+  if (inputTitle.value && inputAuthor.value && inputPage.value) {
+    const newBook = new Book(inputTitle.value, inputAuthor.value, inputPage.value, inputRead.checked);
+    console.dir(newBook);
+    addBookToLibrary(newBook);
+    displayBooks();
+    resetInputs();
+  }
+}
+
+function resetInputs() {
+  inputTitle.value = '';
+  inputAuthor.value = '';
+  inputPage.value = '';
+  inputRead.checked = false;
+}
+
 const hobbit = new Book('The Hobbit', 'JRR Tolkien', 295, true);
 
 
@@ -49,3 +71,4 @@ const hobbit = new Book('The Hobbit', 'JRR Tolkien', 295, true);
 addBookButton.addEventListener('click', () => modal.style.display = 'block');
 closeButton.addEventListener('click', () => modal.style.display = 'none');
 window.addEventListener('click', e => { if(e.target == modal) {modal.style.display = 'none'}});
+sendNewBook.addEventListener('click', getNewBook);
