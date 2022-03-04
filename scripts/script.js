@@ -6,13 +6,14 @@ const inputTitle = document.querySelector('#title');
 const inputAuthor = document.querySelector('#author');
 const inputPage = document.querySelector('#pages');
 const inputRead = document.querySelector('#read');
-
+let removeButtons;
 
 function Book(title, author, pages, read) {
   this.title = title;
   this.author = author;
   this.pages = pages;
   this.read = read;
+  this.index = myLibrary.length;
 }
 
 Book.prototype.info = function() {
@@ -27,33 +28,47 @@ let myLibrary = [];
 
 
 function addBookToLibrary(book) {
-  const bookCard = document.createElement('div');
-  const title = document.createElement('h2');
-  const author = document.createElement('p');
-  const pages = document.createElement('p');
-  const read = document.createElement('p');
-  bookCard.classList.add('.book-card');
-  title.textContent = book.title;
-  author.textContent = book.author;
-  pages.textContent = book.pages;
-  read.textContent = book.read ? 'already read' : 'not read';
-  bookCard.append(title, author, pages, read);
-  myLibrary.push(bookCard);
+  myLibrary.push(book);
 }
 
 function displayBooks() {
   for (let i = 0; i < myLibrary.length; i++) {
-    document.body.appendChild(myLibrary[i]);
+    const bookCard = document.createElement('div');
+    const title = document.createElement('h2');
+    const author = document.createElement('p');
+    const pages = document.createElement('p');
+    const read = document.createElement('p');
+    const remove = document.createElement('button')
+    bookCard.classList.add('book-card');
+    remove.classList.add('remove-book');
+    title.textContent = myLibrary[0].title;
+    author.textContent = myLibrary[0].author;
+    pages.textContent = myLibrary[0].pages;
+    read.textContent = myLibrary[0].read ? 'already read' : 'not read';
+    remove.textContent = 'Delete book';
+    bookCard.append(title, author, pages, read, remove);
+    document.body.appendChild(bookCard);
   }
+}
+
+function updateRemoveButtons() {
+  removeButtons = document.querySelectorAll('.remove-book');
+  removeButtons.forEach(button => button.addEventListener('click', removeBook));
+}
+
+function removeBook() {
+  let currentCard = this.parentNode;
+  document.body.removeChild(currentCard);
 }
 
 function getNewBook() {
   if (inputTitle.value && inputAuthor.value && inputPage.value) {
     const newBook = new Book(inputTitle.value, inputAuthor.value, inputPage.value, inputRead.checked);
-    console.dir(newBook);
     addBookToLibrary(newBook);
     displayBooks();
     resetInputs();
+    updateRemoveButtons();
+    modal.style.display = 'none';
   }
 }
 
@@ -65,6 +80,9 @@ function resetInputs() {
 }
 
 const hobbit = new Book('The Hobbit', 'JRR Tolkien', 295, true);
+addBookToLibrary(hobbit);
+displayBooks();
+updateRemoveButtons();
 
 
 
