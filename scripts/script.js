@@ -1,4 +1,5 @@
 const modal = document.querySelector('.modal');
+const library = document.querySelector('.library');
 const addBookButton = document.querySelector('.add-book');
 const closeButton = document.querySelector('.close');
 const sendNewBook = document.querySelector('.send-book');
@@ -32,6 +33,9 @@ function addBookToLibrary(book) {
 }
 
 function displayBooks() {
+  while (library.firstChild) {
+    library.removeChild(library.firstChild);
+  }
   for (let i = 0; i < myLibrary.length; i++) {
     const bookCard = document.createElement('div');
     const title = document.createElement('h2');
@@ -40,14 +44,15 @@ function displayBooks() {
     const read = document.createElement('p');
     const remove = document.createElement('button')
     bookCard.classList.add('book-card');
+    bookCard.dataset.index = i;
     remove.classList.add('remove-book');
-    title.textContent = myLibrary[0].title;
-    author.textContent = myLibrary[0].author;
-    pages.textContent = myLibrary[0].pages;
-    read.textContent = myLibrary[0].read ? 'already read' : 'not read';
+    title.textContent = myLibrary[i].title;
+    author.textContent = myLibrary[i].author;
+    pages.textContent = myLibrary[i].pages;
+    read.textContent = myLibrary[i].read ? 'already read' : 'not read';
     remove.textContent = 'Delete book';
     bookCard.append(title, author, pages, read, remove);
-    document.body.appendChild(bookCard);
+    library.appendChild(bookCard);
   }
 }
 
@@ -57,8 +62,17 @@ function updateRemoveButtons() {
 }
 
 function removeBook() {
-  let currentCard = this.parentNode;
-  document.body.removeChild(currentCard);
+  let currentCardIndex = this.parentNode.dataset.index;
+  myLibrary.splice(currentCardIndex, 1);
+  updateIndexes();
+  displayBooks();
+  updateRemoveButtons();
+}
+
+function updateIndexes() {
+  for (let i = 0; i < myLibrary.length; i++) {
+    myLibrary[i].index = i;
+  }
 }
 
 function getNewBook() {
@@ -80,9 +94,7 @@ function resetInputs() {
 }
 
 const hobbit = new Book('The Hobbit', 'JRR Tolkien', 295, true);
-addBookToLibrary(hobbit);
-displayBooks();
-updateRemoveButtons();
+
 
 
 
