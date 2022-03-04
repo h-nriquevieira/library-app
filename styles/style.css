@@ -6,6 +6,52 @@ html {
   box-sizing: inherit;
 }
 
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+}
+
+header {
+  width: 100%;
+  padding: 1rem;
+  text-transform: uppercase;
+  background-color: #032B43;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header button,
+.modal-content form button {
+  background-color: #FFBA08;
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: .5rem 3rem;
+  width: 100%;
+  max-width: 300px;
+  border-radius: 10px;
+}
+
+button {
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+h1 {
+  margin: 0 0 .3rem 0;
+  text-align: center;
+}
+
+
 .modal {
   display: none;
   position: fixed;
@@ -23,8 +69,36 @@ html {
   background-color: #fefefe;
   margin: 15% auto;
   padding: 20px;
-  border: 1px solid #888;
+  border: 1px solid #FFBA08;
   width: 80%;
+  max-width: 500px;
+  border-radius: 15px;
+}
+
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+form input {
+  max-width: 200px;
+  padding: .3rem;
+}
+
+form input:active,
+form input:hover,
+form input:focus {
+  border: 1px solid #FFBA08;
+  outline: none;
+}
+
+label[for='read'] {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  justify-content: flex-start;
 }
 
 .close {
@@ -39,4 +113,63 @@ html {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+.library {
+  background-color: #136F63;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+  justify-content: center;
+  padding: 1rem;
+  justify-content: start;
+}
+
+.book-card {
+  background-color: #032B43;
+  border-radius: 10px;
+  max-height: 300px;
+  padding: 1rem;
+  box-shadow: 5px 5px #FFBA08;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: .7rem;
+}
+
+.book-card p,
+.book-card h2 {
+  margin: 0;
+}
+
+.book-card h2 {
+  font-size: 2rem;
+  text-transform: uppercase;
+}
+
+.book-card h2 + p::before {
+  content: 'Author: ';
+  font-weight: bold;
+}
+
+.book-card h2 + p + p::before {
+  content: 'Pages: ';
+  font-weight: bold;
+}
+
+.book-card h2 + p + p + p::before {
+  content: 'Status: ';
+  font-weight: bold;
+}
+
+.book-card button {
+  background-color: #FFBA08;
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: .5rem 3rem;
+  width: 100%;
+  border-radius: 10px; 
 }
