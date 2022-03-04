@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script defer src="./scripts/script.js"></script>
+  <link rel="stylesheet" href="./styles/style.css">
+</head>
+<body>
+  
+
+  <button class='add-book'>Add book</button>
+  <div class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <form action="">
+        <h2>Add new book</h2>
+        <label for="title">Title:</label>
+        <input type="text" name='title' id='title'>
+        <label for="author">Author:</label>
+        <input type="text" name='author' id='author'>
+        <label for="pages">Number of pages:</label>
+        <input type="tel" name="pages" id="pages">
+        <label for="read">
+          <input type="checkbox" name="read" id="read">
+          <p>I've read this book</p>
+        </label>
+        <button type='button'>Add book</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
