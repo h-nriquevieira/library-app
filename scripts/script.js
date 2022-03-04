@@ -2,6 +2,11 @@ let myLibrary = [];
 const modal = document.querySelector('.modal');
 const addBookButton = document.querySelector('.add-book');
 const closeButton = document.querySelector('.close');
+const sendBookButton = document.querySelector('.send-book');
+const currentTitle = document.querySelector('#title');
+const currentAuthor = document.querySelector('#author');
+const currentPages = document.querySelector('#pages');
+const currentRead = document.querySelector('#read');
 
 function Book(title, author, pages, read) {
   this.title = title;
@@ -24,24 +29,36 @@ function addBookToLibrary(title, author, pages, isItRead) {
   myLibrary.push(new Book(title, author, pages, isItRead));
 }
 
-function displayBooks() {
-  for (let i = 0; i < myLibrary.length; i++) {
-    let bookCard = document.createElement('div');
-    let bookTitle = document.createElement('h2');
-    let bookAuthor = document.createElement('p');
-    let bookPages = document.createElement('p');
-    let bookRead = document.createElement('p');
-    bookTitle.textContent = myLibrary[i].title;
-    bookAuthor.textContent = myLibrary[i].author;
-    bookPages.textContent = myLibrary[i].pages;
-    if (myLibrary[i].read) {
-      bookRead.textContent = 'Read';
-    } else {bookRead.textContent = 'Not read'}
-    bookCard.append(bookTitle, bookAuthor, bookPages, bookRead);
-    document.body.appendChild(bookCard);
-  }
+function addBook() {
+  displayBooks(currentTitle, currentAuthor, currentPages, currentRead);
+  resetInput();
+}
+
+function resetInput() {
+  currentTitle.value = '';
+  currentAuthor.value = '';
+  currentPages.value = '';
+  currentRead.checked = false;
+  modal.style.display = 'none';
+}
+
+function displayBooks(title, author, pages, read) {
+  let bookCard = document.createElement('div');
+  let bookTitle = document.createElement('h2');
+  let bookAuthor = document.createElement('p');
+  let bookPages = document.createElement('p');
+  let bookRead = document.createElement('p');
+  bookTitle.textContent = title.value;
+  bookAuthor.textContent = author.value;
+  bookPages.textContent = pages.value;
+  if (read.checked) {
+    bookRead.textContent = 'Read';
+  } else {bookRead.textContent = 'Not read'}
+  bookCard.append(bookTitle, bookAuthor, bookPages, bookRead);
+  document.body.appendChild(bookCard);
 }
 
 addBookButton.addEventListener('click', () => modal.style.display = 'block');
 closeButton.addEventListener('click', () => modal.style.display = 'none');
+sendBookButton.addEventListener('click', addBook);
 window.addEventListener('click', (e) => {if(e.target == modal) modal.style.display = 'none'});
