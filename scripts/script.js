@@ -10,20 +10,22 @@ const inputRead = document.querySelector('#read');
 let removeButtons;
 let readButtons;
 
-function Book(title, author, pages, read) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read;
-  this.index = myLibrary.length;
-}
+class Book {
+  constructor(title, author, pages, read) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
+    this.index = myLibrary.length;
+  }
 
-Book.prototype.info = function() {
+  info() {
     let isItRead = 'not read yet';
     if (this.read) {
       isItRead = 'already read'
     }
     return `${this.title} by ${this.author}, ${this.pages} pages, ${isItRead}.`;
+  }
 }
 
 let myLibrary = [];
